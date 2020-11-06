@@ -2,12 +2,14 @@ package com.example.foregroundservicegabrielbhering;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Notification getNotification(){
+
         createNotificationChannel();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -29,13 +32,14 @@ public class MainActivity extends AppCompatActivity {
                 .setContentText("O que mais posso dizer?")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         return builder.build();
+
     }
 
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             CharSequence name = "Mostrar notificação";
             String description = "Mostra a notificação";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -45,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+
         }
+    }
+
+    public void notificar(View view){
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        notificationManager.notify(100, getNotification());
     }
 }
